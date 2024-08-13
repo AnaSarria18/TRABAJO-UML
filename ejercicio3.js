@@ -20,7 +20,7 @@ class Pedido {
         this.estado = "pendiente";
         this.productos = [];
         this.pagos = [];
-        this.impuesto = 20;
+        this.impuesto = 0.20;
     }
 
     agregarProducto(producto){
@@ -53,8 +53,17 @@ class Pedido {
         }
         return totalPagado;
     }
-    mostrarPedido(){
-        console.log(this.fecha , this.pagos, this.productos)
+    mostrarPedido() {
+        let info = `Fecha del Pedido: ${this.fecha}`;
+        info += 'Pagos:';
+        for (let i = 0; i < this.pagos.length; i++) {
+            info += `  Fecha: ${this.pagos[i].fecha}, Monto: ${this.pagos[i].monto}`;
+        }
+        info += 'Productos:';
+        for (let i = 0; i < this.productos.length; i++) {
+            info += `  Nombre: ${this.productos[i].nombre}, Precio: ${this.productos[i].precio}, Cantidad: ${this.productos[i].cantidad}`;
+        }
+        console.log(info);
     }
 }
 
@@ -68,17 +77,26 @@ class Cliente {
         this.pedidos = []
     }
     agregarPedido(pedidnuevo){
-        cliente1.pedidos.push(pedidnuevo);
+        this.pedidos.push(pedidnuevo);
+        
     }
+   
     mostrarInformacion() {
-        console.log("Información del Cliente:" + "Nombre:", this.nombre + "Dirección:", this.direccion + "Teléfono:", this.telefono + "Correo electrónico:", this.email + "Pedidos:"  );
+        console.log("Información del Cliente:", "Nombre:", this.nombre, "Dirección:", this.direccion, "Teléfono:", this.telefono, "Correo electrónico:", this.email);
+        console.log("Pedidos:");
         for (let i = 0; i < this.pedidos.length; i++) {
             let pedido = this.pedidos[i];
-            console.log(`  ${i+1}. Fecha: ${pedido.producto}, Producto: ${pedido.nombre}, Cantidad: ${Producto.cantidad}`);
+            console.log(`  ${i+1}. Fecha: ${pedido.fecha}`);
+            for (let j = 0; j < pedido.productos.length; j++) {
+                let producto = pedido.productos[j];
+                console.log(`    - Nombre: ${producto.nombre}, Precio: ${producto.precio}, Cantidad: ${producto.cantidad}`);
+            }
+            console.log(`    - Total: ${pedido.calcularTotal()}`);
         }
     }
-
 }
+
+
 
 
 let producto1 = new Producto("jabon", 15000, 40, 20);
@@ -104,4 +122,5 @@ cliente1.agregarPedido(pedido1)
 
 
 cliente1.mostrarInformacion();
+
 
